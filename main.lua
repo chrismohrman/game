@@ -1,20 +1,14 @@
-
 local player = require('player')
 local countryside = require('countryside')
-function love.load()
-
-
-
-
-end
 
 function love.draw()
-  for tile in ipairs(countryside) do
-    love.graphics.draw(BackgroundImage, countryside[tile], 0, 0)
+  for rowindex in ipairs(countryside) do
+    local row = countryside[rowindex]
+    for tileindex in ipairs(row) do
+      local tile = row[tileindex]
+      love.graphics.draw(BackgroundImage, tile, tileindex * 32, rowindex * 32)
+    end 
   end
-  love.graphics.draw(BackgroundImage, GrassQuad, 368, 268)
-  love.graphics.draw(BackgroundImage, GrassQuad, 400, 268)
-  love.graphics.draw(BackgroundImage, BoxQuad, 400, 300)
     player.sprite:draw(player.image, player.x, player.y)
 end
 
