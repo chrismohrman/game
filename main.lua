@@ -6,8 +6,8 @@ function love.draw()
     local row = countryside[rowindex]
     for tileindex in ipairs(row) do
       local tile = row[tileindex]
-      love.graphics.draw(BackgroundImage, tile, tileindex * 32, rowindex * 32)
-    end 
+      love.graphics.draw(BackgroundImage, tile, (tileindex - 1) * 32, (rowindex - 1) * 32)
+    end
   end
     player.sprite:draw(player.image, player.x, player.y)
 end
@@ -33,12 +33,20 @@ end
 function love.keyreleased(released_key)
   if released_key == 'up' then
     player.actions.up = false
+    if player.ismoving() == false then player.sprite = player.sprites.upstand
+    end
   elseif released_key == 'down' then
     player.actions.down = false
+    if player.ismoving() == false then player.sprite = player.sprites.downstand
+    end
   elseif released_key == 'right' then
     player.actions.right = false
+    if player.ismoving() == false then player.sprite = player.sprites.rightstand
+    end
   elseif released_key == 'left' then
     player.actions.left = false
+    if player.ismoving() == false then player.sprite = player.sprites.leftstand
+    end
   end
 end
 --dt = delta time is the amount of time that has passed in game
