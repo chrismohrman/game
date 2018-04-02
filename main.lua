@@ -1,5 +1,7 @@
 local player = require('player')
+local world = require('world')
 local countryside = require('countryside')
+local block = require('block')
 
 function love.draw()
   for rowindex in ipairs(countryside) do
@@ -9,7 +11,9 @@ function love.draw()
       love.graphics.draw(BackgroundImage, tile, (tileindex - 1) * 32, (rowindex - 1) * 32)
     end
   end
-    player.sprite:draw(player.image, player.x, player.y)
+
+  block.draw()
+  player.draw()
 end
 
 function love.keypressed(pressed_key)
@@ -53,10 +57,6 @@ end
 function love.update(dt)
   --io.write(dt)
   --io.write('\n')
-  player.sprite:update(dt)
-  if player.actions.up == true then player.y = player.y - dt * 100
-  elseif player.actions.down == true then player.y = player.y + dt * 100
-  elseif player.actions.right == true then player.x = player.x + dt * 100
-  elseif player.actions.left == true then player.x = player.x - dt * 100
-  end
+player.update(dt)
+  world:update(dt)
 end

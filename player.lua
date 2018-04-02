@@ -1,4 +1,5 @@
-local anim8 = require 'anim8'
+local anim8 = require('anim8')
+local world = require('world')
 local image = love.graphics.newImage("images/Character.png")
 local grid = anim8.newGrid(64, 64, image:getWidth(), image:getHeight())
 local player = {
@@ -17,11 +18,16 @@ local player = {
   y = 200,
   actions = {
     up = false,
-  down = false,
-  right = false,
-  left = false
+    down = false,
+    right = false,
+    left = false
+  }
 }
-}
+
+local body = love.physics.newBody(world, player.x, player.y, 'dynamic')
+local shape = love.physics.newRectangleShape(64, 64)
+local fixture = love.physics.newFixture(body, shape)
+
 function player.ismoving()
   if player.actions.up == true then return true
   elseif player.actions.down == true then return true
@@ -30,5 +36,22 @@ function player.ismoving()
   end
   return false
 end
+function player.draw()
+  player.sprite:draw(player.image, player.x, player.y)
+  love.graphics.setColor(160, 72, 14, 255)
+  love.graphics.polygon('line', body:getWorldPoints(shape:getPoints()))
+  love.graphics.setColor(255, 255, 255, 255)
+end
+
+player.update = function(dt)
+  player.sprite:update(dt)
+  if player.actions.up == true then player.y = player.y - dt * 100
+  elseif player.actions.down == true then player.y = player.y + dt * 100
+  elseif player.actions.right == true then player.x = player.x + dt * 100
+  elseif player.actions.left == true then player.x = player.x - dt * 100
+    end
+    body:setPosition(player.x, player.y)
+end
+
 player.sprite = player.sprites.downstand
 return player
