@@ -44,15 +44,35 @@ function player.draw()
 end
 
 player.update = function(dt)
+  -- Synchronize the sprite animation using delta time
+  player.sprite:update(dt)
+
    -- Change the body velocity to match the player's current actions
-  if player.actions.up == true then body:setLinearVelocity(0, -100)
-  elseif player.actions.down == true then body:setLinearVelocity(0, 100)
-  elseif player.actions.right == true then body:setLinearVelocity(100, 0)
-  elseif player.actions.left == true then body:setLinearVelocity(-100, 0)
-    end
-     -- Synchronize the sprite animation using delta time
-      player.sprite:update(dt)
-      -- todo: Put code here to update the player sprite to match the body position
+  local vel_x = 0
+  local vel_y = 0
+
+
+  if player.actions.up == player.actions.down then
+    vel_y = 0
+  elseif player.actions.up == true then
+    vel_y = -100
+  elseif player.actions.down == true then
+    vel_y = 100
+  else
+    vel_y = 0
+  end
+
+  if player.actions.left == player.actions.right then
+    vel_x = 0
+  elseif player.actions.left == true then
+    vel_x = -100
+  elseif player.actions.right == true then
+    vel_x = 100
+  else
+    vel_x = 0
+  end
+
+  body:setLinearVelocity(vel_x, vel_y)
 end
 
 player.keyreleased = function(released_key)
