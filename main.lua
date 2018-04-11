@@ -17,41 +17,11 @@ function love.draw()
 end
 
 function love.keypressed(pressed_key)
-  if pressed_key == 'up' then
-    player.actions.up = true
-    player.sprite = player.sprites.up
-  elseif pressed_key == 'down' then
-    player.actions.down = true
-    player.sprite = player.sprites.down
-  elseif pressed_key == 'right' then
-    player.actions.right = true
-    player.sprite = player.sprites.right
-  elseif pressed_key == 'left' then
-    player.actions.left = true
-    player.sprite = player.sprites.left
-  elseif pressed_key == 'escape' then
-    love.event.quit()
-  end
+  player.keypressed(pressed_key)
 end
 
 function love.keyreleased(released_key)
-  if released_key == 'up' then
-    player.actions.up = false
-    if player.ismoving() == false then player.sprite = player.sprites.upstand
-    end
-  elseif released_key == 'down' then
-    player.actions.down = false
-    if player.ismoving() == false then player.sprite = player.sprites.downstand
-    end
-  elseif released_key == 'right' then
-    player.actions.right = false
-    if player.ismoving() == false then player.sprite = player.sprites.rightstand
-    end
-  elseif released_key == 'left' then
-    player.actions.left = false
-    if player.ismoving() == false then player.sprite = player.sprites.leftstand
-    end
-  end
+  player.keyreleased(released_key)
 end
 --dt = delta time is the amount of time that has passed in game
 function love.update(dt)
