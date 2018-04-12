@@ -6,7 +6,7 @@ local xposition = 200
 local yposition = 300
 local body = love.physics.newBody(world, xposition, yposition, 'static')
 
-local shape = love.physics.newRectangleShape(32, 32)
+local shape = love.physics.newRectangleShape(16, 16, 32, 32)
 local fixture = love.physics.newFixture(body, shape)
 
 function draw()

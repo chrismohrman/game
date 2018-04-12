@@ -25,7 +25,8 @@ local player = {
 }
 
 local body = love.physics.newBody(world, player.x, player.y, 'dynamic')
-local shape = love.physics.newRectangleShape(64, 64)
+body:setFixedRotation(true)
+local shape = love.physics.newRectangleShape(32, 46, 32, 32)
 local fixture = love.physics.newFixture(body, shape)
 
 function player.ismoving()
@@ -36,8 +37,8 @@ function player.ismoving()
   end
   return false
 end
-function player.draw()
-  player.sprite:draw(player.image, body:getX(), body:getY())
+player.draw = function()
+  player.sprite:draw(player.image, body:getX(), body:getY(), body:getAngle())
   love.graphics.setColor(160, 72, 14, 255)
   love.graphics.polygon('line', body:getWorldPoints(shape:getPoints()))
   love.graphics.setColor(255, 255, 255, 255)
@@ -54,7 +55,7 @@ player.update = function(dt)
 
   if player.actions.up == player.actions.down then
     vel_y = 0
-  elseif player.actions.up == true then
+  elseif player.actions.up then
     vel_y = -100
   elseif player.actions.down == true then
     vel_y = 100
