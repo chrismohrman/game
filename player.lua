@@ -25,9 +25,12 @@ local player = {
 }
 
 local body = love.physics.newBody(world, player.x, player.y, 'dynamic')
+player.body = body
 body:setFixedRotation(true)
 local shape = love.physics.newRectangleShape(32, 46, 32, 32)
+player.shape = shape
 local fixture = love.physics.newFixture(body, shape)
+player.fixture = fixture
 
 function player.ismoving()
   if player.actions.up == true then return true
@@ -37,44 +40,10 @@ function player.ismoving()
   end
   return false
 end
-player.draw = function()
-  player.sprite:draw(player.image, body:getX(), body:getY(), body:getAngle())
-  love.graphics.setColor(160, 72, 14, 255)
-  love.graphics.polygon('line', body:getWorldPoints(shape:getPoints()))
-  love.graphics.setColor(255, 255, 255, 255)
-end
-
-player.update = function(dt)
-  -- Synchronize the sprite animation using delta time
-  player.sprite:update(dt)
-
-   -- Change the body velocity to match the player's current actions
-  local vel_x = 0
-  local vel_y = 0
 
 
-  if player.actions.up == player.actions.down then
-    vel_y = 0
-  elseif player.actions.up then
-    vel_y = -100
-  elseif player.actions.down == true then
-    vel_y = 100
-  else
-    vel_y = 0
-  end
 
-  if player.actions.left == player.actions.right then
-    vel_x = 0
-  elseif player.actions.left == true then
-    vel_x = -100
-  elseif player.actions.right == true then
-    vel_x = 100
-  else
-    vel_x = 0
-  end
 
-  body:setLinearVelocity(vel_x, vel_y)
-end
 
 player.keyreleased = function(released_key)
   if released_key == 'up' then

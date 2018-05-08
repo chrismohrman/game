@@ -1,3 +1,5 @@
+local entity_draw = require('systems/entity-draw')
+local entity_update = require('systems/entity-update')
 local player = require('player')
 local world = require('world')
 local countryside = require('countryside')
@@ -13,7 +15,7 @@ function love.draw()
   end
 
   block.draw()
-  player.draw()
+  entity_draw(player)
 end
 
 function love.keypressed(pressed_key)
@@ -27,6 +29,6 @@ end
 function love.update(dt)
   --io.write(dt)
   --io.write('\n')
-player.update(dt)
+  entity_update(player, dt)
   world:update(dt)
 end
