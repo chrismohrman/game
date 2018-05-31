@@ -3,7 +3,8 @@ local entity_update = require('systems/entity-update')
 local player = require('player')
 local world = require('world')
 local countryside = require('countryside')
-local block = require('block')
+local bag_1 = require('bag-1')
+local bag_2 = require('bag-2')
 
 function love.draw()
   for rowindex in ipairs(countryside) do
@@ -14,7 +15,8 @@ function love.draw()
     end
   end
 
-  block.draw()
+  entity_draw(bag_1)
+  entity_draw(bag_2)
   entity_draw(player)
 end
 
