@@ -5,14 +5,14 @@ local grid = anim8.newGrid(64, 64, image:getWidth(), image:getHeight())
 local player = {
   image = image,
   sprites = {
-    down = anim8.newAnimation(grid('1-9', 11), 0.25                 ),
-    left = anim8.newAnimation(grid('1-9', 10), 0.25        ),
-    right = anim8.newAnimation(grid('1-9', 12), 0.25       ),
-    up = anim8.newAnimation(grid('1-9', 9), 0.25      ),
-    downstand = anim8.newAnimation(grid(1, 11), 0.25),
-    leftstand = anim8.newAnimation(grid(1, 10), 0.25),
-    rightstand = anim8.newAnimation(grid(1, 12), 0.25),
-    upstand = anim8.newAnimation(grid(1, 9), 0.25)
+    move_down = anim8.newAnimation(grid('1-9', 11), 0.25                 ),
+    move_left = anim8.newAnimation(grid('1-9', 10), 0.25        ),
+    move_right = anim8.newAnimation(grid('1-9', 12), 0.25       ),
+    move_up = anim8.newAnimation(grid('1-9', 9), 0.25      ),
+    stand_down = anim8.newAnimation(grid(1, 11), 0.25),
+    stand_left = anim8.newAnimation(grid(1, 10), 0.25),
+    stand_right = anim8.newAnimation(grid(1, 12), 0.25),
+    stand_up = anim8.newAnimation(grid(1, 9), 0.25)
   },
   x = 300,
   y = 200,
@@ -24,19 +24,16 @@ local player = {
   }
 }
 
-local body = love.physics.newBody(world, player.x, player.y, 'dynamic')
-player.body = body
-body:setFixedRotation(true)
-local shape = love.physics.newRectangleShape(32, 46, 32, 32)
-player.shape = shape
-local fixture = love.physics.newFixture(body, shape)
-player.fixture = fixture
+player.body = love.physics.newBody(world, player.x, player.y, 'dynamic')
+player.body:setFixedRotation(true)
+player.shape = love.physics.newRectangleShape(32, 46, 32, 32)
+player.fixture = love.physics.newFixture(player.body, player.shape)
 
 function player.ismoving()
-  if player.actions.up == true then return true
-  elseif player.actions.down == true then return true
-  elseif player.actions.left == true then return true
-  elseif player.actions.right == true then return true
+  if player.actions.move_up == true then return true
+  elseif player.actions.move_down == true then return true
+  elseif player.actions.move_left == true then return true
+  elseif player.actions.move_right == true then return true
   end
   return false
 end
@@ -47,41 +44,41 @@ end
 
 player.keyreleased = function(released_key)
   if released_key == 'up' then
-    player.actions.up = false
-    if player.ismoving() == false then player.sprite = player.sprites.upstand
+    player.actions.move_up = false
+    if player.ismoving() == false then player.sprite = player.sprites.stand_up
     end
   elseif released_key == 'down' then
-    player.actions.down = false
-    if player.ismoving() == false then player.sprite = player.sprites.downstand
+    player.actions.move_down = false
+    if player.ismoving() == false then player.sprite = player.sprites.stand_down
     end
   elseif released_key == 'right' then
-    player.actions.right = false
-    if player.ismoving() == flase then player.sprite = player.sprites.rightstand
+    player.actions.move_right = false
+    if player.ismoving() == flase then player.sprite = player.sprites.stand_right
     end
   elseif released_key == 'left' then
-    player.actions.left = false
-    if player.ismoving() == false then player.sprite = player.sprites.leftstand
+    player.actions.move_left = false
+    if player.ismoving() == false then player.sprite = player.sprites.stand_left
     end
   end
 end
 
 player.keypressed = function(pressed_key)
   if pressed_key == 'up' then
-    player.actions.up = true
-    player.sprite = player.sprites.up
+    player.actions.move_up = true
+    player.sprite = player.sprites.move_up
   elseif pressed_key == 'down' then
-    player.actions.down = true
-    player.sprite = player.sprites.down
+    player.actions.move_down = true
+    player.sprite = player.sprites.move_down
   elseif pressed_key == 'right' then
-    player.actions.right = true
-    player.sprite = player.sprites.right
+    player.actions.move_right = true
+    player.sprite = player.sprites.move_right
   elseif pressed_key == 'left' then
-    player.actions.left = true
-    player.sprite = player.sprites.left
+    player.actions.move_left = true
+    player.sprite = player.sprites.move_left
   elseif pressed_key == 'escape' then
     love.event.quit()
   end
 end
 
-player.sprite = player.sprites.downstand
+player.sprite = player.sprites.stand_down
 return player

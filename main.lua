@@ -1,3 +1,4 @@
+local orc_update = require('systems/orc-update')
 local entity_draw = require('systems/entity-draw')
 local entity_update = require('systems/entity-update')
 local player = require('player')
@@ -5,6 +6,7 @@ local world = require('world')
 local countryside = require('countryside')
 local bag_1 = require('bag-1')
 local bag_2 = require('bag-2')
+local orc = require('entities/orc')
 
 function love.draw()
   for rowindex in ipairs(countryside) do
@@ -18,6 +20,7 @@ function love.draw()
   entity_draw(bag_1)
   entity_draw(bag_2)
   entity_draw(player)
+  entity_draw(orc)
 end
 
 function love.keypressed(pressed_key)
@@ -32,5 +35,6 @@ function love.update(dt)
   --io.write(dt)
   --io.write('\n')
   entity_update(player, dt)
+  orc_update(orc, dt)
   world:update(dt)
 end

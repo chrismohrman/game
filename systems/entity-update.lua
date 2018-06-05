@@ -7,21 +7,21 @@ return function(entity, dt)
   local vel_y = 0
 
 
-  if entity.actions.up == entity.actions.down then
+  if entity.actions.move_up == entity.actions.move_down then
     vel_y = 0
-  elseif entity.actions.up then
+  elseif entity.actions.move_up then
     vel_y = -100
-  elseif entity.actions.down == true then
+  elseif entity.actions.move_down == true then
     vel_y = 100
   else
     vel_y = 0
   end
 
-  if entity.actions.left == entity.actions.right then
+  if entity.actions.move_left == entity.actions.move_right then
     vel_x = 0
-  elseif entity.actions.left == true then
+  elseif entity.actions.move_left == true then
     vel_x = -100
-  elseif entity.actions.right == true then
+  elseif entity.actions.move_right == true then
     vel_x = 100
   else
     vel_x = 0
