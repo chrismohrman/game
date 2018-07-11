@@ -1,6 +1,6 @@
 return function(entity, dt)
   -- Synchronize the sprite animation using delta time
-  entity.sprite:update(dt)
+  entity.active_sprite:update(dt)
 
    -- Change the body velocity to match the player's current actions
   local vel_x = 0

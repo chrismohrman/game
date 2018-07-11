@@ -19,6 +19,7 @@ entity.body = love.physics.newBody(world, entity.x, entity.y, 'dynamic')
 entity.body:setFixedRotation(true)
 entity.shape = love.physics.newRectangleShape(32, 46, 32, 32)
 entity.fixture = love.physics.newFixture(entity.body, entity.shape)
+entity.direction_timer = 0
 
-entity.sprite = entity.sprites.stand_down
+entity.active_sprite = entity.sprites.stand_down
 return entity

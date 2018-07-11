@@ -4,9 +4,9 @@ local entity = {}
 
 entity.image = love.graphics.newImage("images/slack-imgs.png")
 local grid = anim8.newGrid(32, 32, entity.image:getWidth(), entity.image:getHeight())
-entity.sprite = anim8.newAnimation(grid(9, 11), 1)
-local xposition = 0
-local yposition = 0
+entity.active_sprite = anim8.newAnimation(grid(8, 11), 1)
+local xposition = 200
+local yposition = 300
 entity.body = love.physics.newBody(world, xposition, yposition, 'dynamic')
 
 entity.shape = love.physics.newRectangleShape(16, 16, 32, 32)

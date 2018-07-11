@@ -45,19 +45,19 @@ end
 player.keyreleased = function(released_key)
   if released_key == 'up' then
     player.actions.move_up = false
-    if player.ismoving() == false then player.sprite = player.sprites.stand_up
+    if player.ismoving() == false then player.active_sprite = player.sprites.stand_up
     end
   elseif released_key == 'down' then
     player.actions.move_down = false
-    if player.ismoving() == false then player.sprite = player.sprites.stand_down
+    if player.ismoving() == false then player.active_sprite = player.sprites.stand_down
     end
   elseif released_key == 'right' then
     player.actions.move_right = false
-    if player.ismoving() == flase then player.sprite = player.sprites.stand_right
+    if player.ismoving() == flase then player.active_sprite = player.sprites.stand_right
     end
   elseif released_key == 'left' then
     player.actions.move_left = false
-    if player.ismoving() == false then player.sprite = player.sprites.stand_left
+    if player.ismoving() == false then player.active_sprite = player.sprites.stand_left
     end
   end
 end
@@ -65,20 +65,20 @@ end
 player.keypressed = function(pressed_key)
   if pressed_key == 'up' then
     player.actions.move_up = true
-    player.sprite = player.sprites.move_up
+    player.active_sprite = player.sprites.move_up
   elseif pressed_key == 'down' then
     player.actions.move_down = true
-    player.sprite = player.sprites.move_down
+    player.active_sprite = player.sprites.move_down
   elseif pressed_key == 'right' then
     player.actions.move_right = true
-    player.sprite = player.sprites.move_right
+    player.active_sprite = player.sprites.move_right
   elseif pressed_key == 'left' then
     player.actions.move_left = true
-    player.sprite = player.sprites.move_left
+    player.active_sprite = player.sprites.move_left
   elseif pressed_key == 'escape' then
     love.event.quit()
   end
 end
 
-player.sprite = player.sprites.stand_down
+player.active_sprite = player.sprites.stand_down
 return player
