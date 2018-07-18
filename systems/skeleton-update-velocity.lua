@@ -28,11 +28,11 @@ if entity.direction_timer >= 1.5 then
     -- down-right
     if entity_y < player_y then
       vel_x = 30
-      vel_y = -30
+      vel_y = 30
       -- up-right
     else
       vel_x = 30
-      vel_y = 30
+      vel_y = -30
     end
   end
     entity.body:setLinearVelocity(vel_x, vel_y)
