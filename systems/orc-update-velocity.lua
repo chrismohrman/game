@@ -1,5 +1,6 @@
 return function(entity, dt)
-  local player = require('entities/entities')[1]
+  local state = require('state')
+  local player = state.entities[1]
   entity.active_sprite:update(dt)
   local player_y = player.body:getY()
   local player_x = player.body:getX()
