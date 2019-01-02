@@ -1,20 +1,14 @@
-local player_factory = require('entities/player')
-local bag_factory = require('entities/bag')
-local orc_factory = require('entities/orc')
-local skeleton_factory = require('entities/skeleton')
-local game_over_factory = require('entities/game-over')
+local state = {}
+state.world = love.physics.newWorld(0, 0, true)
+state.game_over = false
+state.entities = {}
 
-
-return {
-    game_over = false,
-    entities = {
-    player_factory(300, 200),
-    bag_factory(250, 400, 'orange'),
-    bag_factory(275, 450, 'green'),
-    orc_factory(10, 200),
-    orc_factory(100, 200),
-    skeleton_factory(45, 300),
-    skeleton_factory(150, 375),
-    game_over_factory()
-    }
-}
+local begin_contact_callback = function(fixture_a, fixture_b)
+local entity_a = fixture_a:getUserData()
+local entity_b = fixture_b:getUserData()
+  if entity_a.class == 'player' or entity_b.class == 'player' then
+    state.game_over = true
+  end
+end
+state.world:setCallbacks(begin_contact_callback)
+return state
