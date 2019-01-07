@@ -1,0 +1,13 @@
+sudo: required
+
+language: lua
+
+services:
+  - docker
+
+before_install:
+  - docker build -t test .
+
+script:
+  - docker run test
+  - docker run test sh -c "busted --lua=luajit --coverage . && luacov-coveralls -e usr/ -e lib/ -e .spec.lua -t $COVERALLS_TOKEN"

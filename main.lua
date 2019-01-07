@@ -1,63 +1,106 @@
-local entity_draw = require('systems/entity-draw')
-local state = require('state')
-local countryside = require('countryside')
+--- This is the main Love file, containing all the pieces of the game loop.
 
-love.load = function()
-  love.graphics.setDefaultFilter('nearest', 'nearest')
+-- Services
+local Args = require 'src/services/args'
+local Camera = require 'src/services/camera'
+local Entity = require 'src/services/entity'
+local Input = require 'src/services/input'
+local Love = require 'src/services/love'
+local Map = require 'src/services/map'
+local Menu = require 'src/services/menu'
+local Shader = require 'src/services/shader'
+local Timer = require 'lib/timer'
+local World = require 'src/services/world'
 
-  local player_factory = require('entities/player')
-  local bag_factory = require('entities/bag')
-  local orc_factory = require('entities/orc')
-  local skeleton_factory = require('entities/skeleton')
-  local game_over_factory = require('entities/game-over')
-  state.entities = {
-    player_factory(300, 200),
-    bag_factory(250, 400, 'orange'),
-    bag_factory(275, 450, 'green'),
-    orc_factory(10, 200),
-    orc_factory(100, 200),
-    skeleton_factory(45, 300),
-    skeleton_factory(150, 375),
-    game_over_factory()
-  }
+-- Systems
+local CallOnUpdate = require 'src/systems/call-on-update'
+local DestroyEntity = require 'src/systems/destroy-entity'
+local UpdateCamera = require 'src/systems/update-camera'
+local UpdateEntityAnimation = require 'src/systems/update-entity-animation'
+local UpdateEntityVelocity = require 'src/systems/update-entity-velocity'
+local UpdateInputVelocity = require 'src/systems/update-input-velocity'
+local UpdatePlayerBoundaries = require 'src/systems/update-player-boundaries'
 
-
+-- Functions to initialize on game boot
+Love.load = function(args)
+  Args.load(args)
+  Shader.index()
+  Menu.index()
+  -- Load game's main menu
+  -- Menu.load('main')
+  -- Or just jump straight into the game
+  Map.load('simple')
 end
 
-function love.draw()
-  for rowindex in ipairs(countryside) do
-    local row = countryside[rowindex]
-    for tileindex in ipairs(row) do
-      local tile = row[tileindex]
-      love.graphics.draw(BackgroundImage, tile, (tileindex - 1) * 32, (rowindex - 1) * 32)
-    end
+-- Functions to run on re-draw
+function Love.draw()
+  Camera.set()
+  Menu.draw()
+  Map.draw()
+  -- TODO - this could be an entity
+  if Input.is_paused() then
+    Love.graphics.print('-paused-', Camera.get_position())
+  end
+  Camera.unset()
+end
+
+-- Gamepad/Joystick dpad button press event
+-- joystick (joystick table) https://love2d.org/wiki/Joystick
+-- button (string)
+Love.gamepadpressed = function(_, button)
+  Input.call_key_press(button)
+end
+
+-- Gamepad/Joystick dpad button release event
+-- joystick (joystick table) https://love2d.org/wiki/Joystick
+-- button (string)
+Love.gamepadreleased = function(_, button)
+  Input.call_key_release(button)
+end
+
+-- All active callbacks for pressing a key
+-- pressedKey (string)
+Love.keypressed = function(pressed_key)
+  -- Press esc to close game. This will eventually
+  -- be a reserved shortcut for debug mode.
+  if pressed_key == 'escape' then
+    Love.event.quit()
+  end
+  Input.call_key_press(pressed_key)
+end
+
+-- All active callbacks for releasing a key
+-- releasedKey (string)
+Love.keyreleased = function(released_key)
+  Input.call_key_release(released_key)
+end
+
+-- Calculations to re-run on going through another loop
+-- dt (integer) delta time (in seconds)
+Love.update = function(dt)
+  if Input.is_paused() then
+    return
   end
 
-  for index, entity in ipairs(state.entities) do
-    if entity.draw then entity:draw()
+  Timer.update(dt)
+
+  local i = 1
+  while i <= #Entity.list do
+    local entity = Entity.list[i]
+    DestroyEntity(entity)
+    if entity.destroyed then
+      -- Stay on the same index
+      table.remove(Entity.list, i)
     else
-      entity_draw(entity)
+      UpdateCamera(entity)
+      UpdateEntityVelocity(entity)
+      UpdateInputVelocity(entity)
+      UpdatePlayerBoundaries(entity)
+      UpdateEntityAnimation(entity, dt)
+      CallOnUpdate(entity, dt)
+      i = i + 1
     end
   end
-end -- end of love.draw function
 
-function love.keypressed(pressed_key)
-  local player = state.entities[1]
-  player.keypressed(pressed_key)
-end
-
-function love.keyreleased(released_key)
-  local player = state.entities[1]
-  player.keyreleased(released_key)
-end
---dt = delta time is the amount of time that has passed in game
-love.update = function(dt)
-  if state.game_over == false then
-    for _ , entity in ipairs(state.entities) do
-      if entity.update then
-        entity.update(entity, dt)
-      end
-    end
-  state.world:update(dt)
-  end
+  World:update(dt)
 end
