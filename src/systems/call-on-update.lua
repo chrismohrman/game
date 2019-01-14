@@ -8,9 +8,9 @@ local components = {
   'on_update'
 }
 
-local system = function(entity, on_update)
+local system = function(entity, on_update, dt)
   for _, callback in ipairs(on_update) do
-    callback(entity)
+    callback(entity, dt)
   end
 end
 

@@ -63,7 +63,7 @@ return function()
       height = 32,
       offset_x = 32,
       offset_y = 46,
-      width = 32,
+      width = 26,
       type = 'rectangle'
     },
     sprites = 'player'

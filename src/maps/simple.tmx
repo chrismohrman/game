@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="36" height="36" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="4">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="36" height="36" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="9">
  <tileset firstgid="1" name="general" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="../../img/general.png" trans="ffffff" width="512" height="512"/>
  </tileset>
@@ -1309,6 +1309,18 @@
  <objectgroup id="3" name="Ground objects">
   <object id="1" name="box boundaries" type="boundary" x="256" y="256" width="96" height="96"/>
   <object id="3" name="player" x="448" y="274">
+   <point/>
+  </object>
+  <object id="4" name="orc" x="433" y="397">
+   <point/>
+  </object>
+  <object id="6" name="orc" x="144" y="237">
+   <point/>
+  </object>
+  <object id="7" name="orc" x="174" y="398">
+   <point/>
+  </object>
+  <object id="8" name="orc" x="816" y="155">
    <point/>
   </object>
  </objectgroup>
