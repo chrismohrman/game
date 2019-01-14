@@ -1,5 +1,11 @@
 local Love = require 'src/services/love'
 
+local CallOnBeginContact = require 'src/systems/call-on-begin-contact'
+local CallOnEndContact = require 'src/systems/call-on-end-contact'
+local CallOnDeath = require 'src/systems/call-on-death'
+local CallOnPreContact = require 'src/systems/call-on-pre-contact'
+local CallOnPostContact = require 'src/systems/call-on-post-contact'
+
 --- Set pixels per unit of length
 local meter = 32 -- (base tile size)
 Love.physics.setMeter(meter)
@@ -33,16 +39,10 @@ local begin_contact = function(fixture_a, fixture_b, collision)
   local entity_a = fixture_a:getUserData()
   local entity_b = fixture_b:getUserData()
 
-  if entity_a.on_begin_contact then
-    for _, callback in ipairs(entity_a.on_begin_contact) do
-      callback(entity_a, entity_b, collision)
-    end
-  end
-  if entity_b.on_begin_contact then
-    for _, callback in ipairs(entity_b.on_begin_contact) do
-      callback(entity_b, entity_a, collision)
-    end
-  end
+  CallOnBeginContact(entity_a, entity_b, collision)
+  CallOnBeginContact(entity_b, entity_a, collision)
+  CallOnDeath(entity_a, entity_b, collision)
+  CallOnDeath(entity_b, entity_a, collision)
 end
 
 -- Called at the end of one contact iteration
@@ -50,16 +50,8 @@ local end_contact = function(fixture_a, fixture_b, collision)
   local entity_a = fixture_a:getUserData()
   local entity_b = fixture_b:getUserData()
 
-  if entity_a.on_end_contact then
-    for _, callback in ipairs(entity_a.on_end_contact) do
-      callback(entity_a, entity_b, collision)
-    end
-  end
-  if entity_b.on_end_contact then
-    for _, callback in ipairs(entity_b.on_end_contact) do
-      callback(entity_b, entity_a, collision)
-    end
-  end
+  CallOnEndContact(entity_a, entity_b, collision)
+  CallOnEndContact(entity_b, entity_a, collision)
 end
 
 -- Called before contact is solved
@@ -67,16 +59,8 @@ local pre_contact = function(fixture_a, fixture_b, collision)
   local entity_a = fixture_a:getUserData()
   local entity_b = fixture_b:getUserData()
 
-  if entity_a.on_pre_contact then
-    for _, callback in ipairs(entity_a.on_pre_contact) do
-      callback(entity_a, entity_b, collision)
-    end
-  end
-  if entity_b.on_pre_contact then
-    for _, callback in ipairs(entity_b.on_pre_contact) do
-      callback(entity_b, entity_a, collision)
-    end
-  end
+  CallOnPreContact(entity_a, entity_b, collision)
+  CallOnPreContact(entity_b, entity_a, collision)
 end
 
 -- Called after all contact is done
@@ -92,16 +76,8 @@ local post_contact = function(fixture_a, fixture_b, collision, n_impulse, t_impu
   local entity_a = fixture_a:getUserData()
   local entity_b = fixture_b:getUserData()
 
-  if entity_a.on_post_contact then
-    for _, callback in ipairs(entity_a.on_post_contact) do
-      callback(entity_a, entity_b, collision, n_impulse, t_impulse)
-    end
-  end
-  if entity_b.on_post_contact then
-    for _, callback in ipairs(entity_b.on_post_contact) do
-      callback(entity_b, entity_a, collision, n_impulse, t_impulse)
-    end
-  end
+  CallOnPostContact(entity_a, entity_b, collision, n_impulse, t_impulse)
+  CallOnPostContact(entity_b, entity_a, collision, n_impulse, t_impulse)
 end
 
 --- Create world gravity.

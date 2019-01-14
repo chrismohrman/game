@@ -1,5 +1,5 @@
 --- CallOnDeath  \m/
--- Check if player's health is spent, and if so, trigger
+-- Check if entity's health is spent, and if so, trigger
 -- on_death callbacks and destroy the entity.
 
 local System = require 'lib/system'

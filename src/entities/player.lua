@@ -40,8 +40,7 @@ return function()
     max_speed = 120,
     on_begin_contact = {
       'update-health',
-      'flash-damage',
-      'call-on-death'
+      'flash-damage'
     },
     on_death = {
       'fall-over',

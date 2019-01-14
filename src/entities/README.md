@@ -54,7 +54,7 @@ When flag is present, entity will be cleaned up next game loop.
   - 128: not used
   - 64: not used
   - 32: not used
-  - 16: not used
+  - 16: powerups
   - 8: enemy projectile
   - 4: enemy
   - 2: player projectile
@@ -101,6 +101,37 @@ Example:
 ```lua
 on_begin_contact = { 'update-health', 'flash-damage' }
 ```
+
+`on_begin_contact` callback systems are passed 2 additional arguments:
+- `other_entity` - the other entity that was collided with
+- `contact` - a LÖVE [contact object](https://love2d.org/wiki/Contact)
+
+### on_end_contact (table)
+
+An array of string, each string being the name of a system to invoke when two entities cease to contact/overlap.
+They also get called outside of a world update, when colliding objects are destroyed.
+
+Example:
+
+```lua
+on_end_contact = { 'trigger-pressure-plate' }
+```
+
+`on_end_contact` callback systems are passed 2 additional arguments:
+- `other_entity` - the other entity that was collided with
+- `contact` - a LÖVE [contact object](https://love2d.org/wiki/Contact)
+
+### on_pre_contact (table)
+
+An array of strings, similar to the above.
+
+### on_post_contact
+
+`on_begin_contact` callback systems are passed 4 additional arguments:
+- `other_entity` - the other entity that was collided with
+- `contact` - a LÖVE [contact object](https://love2d.org/wiki/Contact)
+- `n_impulse` - ??
+- `t_impulse` - ??
 
 ### on_death (table)
 
