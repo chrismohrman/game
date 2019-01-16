@@ -1,4 +1,4 @@
--- orc
+-- skeleton
 
 return function()
   return {
@@ -10,11 +10,11 @@ return function()
     fixture = {
       category = tonumber('0000000000000100', 2),
       density = 10,
-      friction = 0,
+      friction = o,
       mask = tonumber('1111111111110011', 2)
     },
     health = 100,
-    max_speed = 100,
+    max_speed = 120,
     on_begin_contact = {
       'update-health',
       'flash-damage'
@@ -23,7 +23,7 @@ return function()
       'fall-over',
     },
 
-    on_update = {'orc-move'},
+    on_update = {'skeleton-move'},
 
     shape = {
       height = 32,
@@ -32,6 +32,6 @@ return function()
       width = 28,
       type = 'rectangle'
     },
-    sprites = 'orc'
+    sprites = 'skeleton'
   }
 end

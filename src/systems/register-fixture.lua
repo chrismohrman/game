@@ -24,11 +24,11 @@ local system = function(entity, body, fixture, shape)
     loaded_fixture:setRestitution(fixture.restitution)
   end
 
-  --loaded_fixture:setFilterData(
-    --fixture.category or 0,
-    --fixture.mask or 0,
-    --0
-  --)
+  loaded_fixture:setFilterData(
+    fixture.category or 0,
+    fixture.mask or 0,
+    0
+  )
 
   -- Give the fixture context of the entity it belongs to so
   -- we can extract this information in the event of a collision
