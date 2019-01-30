@@ -19,7 +19,7 @@ local UpdateCamera = require 'src/systems/update-camera'
 local UpdateEntityAnimation = require 'src/systems/update-entity-animation'
 local UpdateEntityVelocity = require 'src/systems/update-entity-velocity'
 local UpdateInputVelocity = require 'src/systems/update-input-velocity'
-local UpdatePlayerBoundaries = require 'src/systems/update-player-boundaries'
+local UpdateEntityBoundaries = require 'src/systems/update-entity-boundaries'
 
 -- Functions to initialize on game boot
 Love.load = function(args)
@@ -95,7 +95,7 @@ Love.update = function(dt)
       UpdateCamera(entity)
       UpdateEntityVelocity(entity)
       UpdateInputVelocity(entity)
-      UpdatePlayerBoundaries(entity)
+      UpdateEntityBoundaries(entity)
       UpdateEntityAnimation(entity, dt)
       CallOnUpdate(entity, dt)
       i = i + 1

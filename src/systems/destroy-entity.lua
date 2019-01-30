@@ -13,16 +13,16 @@ local system = function(entity, body)
   local pos_x, pos_y = body:getPosition()
 
   -- Do the quicker calculations first
-  if pos_x < -20 or pos_y < -20 then
+  if pos_x < -2000 or pos_y < -2000 then
     entity.destroyed = true
     return
   end
 
   local map_width, map_height = Map.get_dimensions()
 
-  -- Add 100 pixels to the width until
+  -- Add 2000 pixels to the width until
   -- we settle on a map width/boundaries
-  if pos_x > map_width + 100 or pos_y > map_height then
+  if pos_x > map_width + 2000 or pos_y > map_height + 2000 then
     entity.destroyed = true
   end
 end
