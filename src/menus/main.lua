@@ -1,8 +1,8 @@
 local btn_start = {
-  color = { 192, 192, 192, 155 },
+  color = { 1, 1, 0, 0.8 },
   text = 'Start',
-  pos_x = 0.1,
-  pos_y = 0.1,
+  pos_x = 0.4,
+  pos_y = 0.3,
   input_actions = {
     up = {
       key_press = { 'element-previous' }
@@ -20,10 +20,10 @@ local btn_start = {
 }
 
 local btn_quit = {
-  color = { 192, 192, 192, 155 },
+  color = { 1, 1, 0, 0.8 },
   text = 'Quit',
-  pos_x = 0.1,
-  pos_y = 0.3,
+  pos_x = 0.4,
+  pos_y = 0.5,
   input_actions = {
     up = {
       key_press = { 'element-previous' }
@@ -37,7 +37,14 @@ local btn_quit = {
   }
 }
 
+local background = {
+  file_name = 'img/title.png',
+  pos_x = 0,
+  pos_y = 0
+}
+
 return {
+  background = background,
   elements = {
     btn_start,
     btn_quit

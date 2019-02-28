@@ -45,22 +45,35 @@ local function draw()
   local left, top = Camera.get_position()
   local window_width, window_height = Love.graphics:getDimensions()
 
+  if active_menu.background then
+    local image = love.graphics.newImage(active_menu.background.file_name)
+    love.graphics.draw(image, active_menu.background.pos_x, active_menu.background.pos_y)
+end
+
+
+  -- begin drawing elements
   for idx, element in ipairs(active_menu.elements) do
     -- Don't mutate the element
     local color = {
       element.color[1],
       element.color[2],
       element.color[3],
-      element.color[4] or 255
+      element.color[4] or 0.8
     }
-    -- Increase the opacity if this is the main menu
+    -- Increase the brightness if this is the active element
     if idx == active_menu.active_element then
-      color[4] = color[4] + 100
+      color[4] = 1
+      color[3] = 0.5
+      color[2] = 1
+      color[1] = 1
     end
     Love.graphics.print(
       { color, element.text },
       left + math.floor(element.pos_x * window_width),
-      top + math.floor(element.pos_y * window_height)
+      top + math.floor(element.pos_y * window_height),
+      0,
+      5,
+      5
     )
   end
 end

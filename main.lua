@@ -27,9 +27,9 @@ Love.load = function(args)
   Shader.index()
   Menu.index()
   -- Load game's main menu
-  -- Menu.load('main')
+  Menu.load('main')
   -- Or just jump straight into the game
-  Map.load('simple')
+  -- Map.load('simple')
 end
 
 -- Functions to run on re-draw
