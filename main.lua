@@ -4,13 +4,13 @@
 local Args = require 'src/services/args'
 local Camera = require 'src/services/camera'
 local Entity = require 'src/services/entity'
+local GameState = require 'src/services/game-state'
 local Input = require 'src/services/input'
 local Love = require 'src/services/love'
 local Map = require 'src/services/map'
 local Menu = require 'src/services/menu'
 local Shader = require 'src/services/shader'
 local Timer = require 'lib/timer'
-local World = require 'src/services/world'
 
 -- Systems
 local CallOnUpdate = require 'src/systems/call-on-update'
@@ -81,16 +81,20 @@ Love.update = function(dt)
   if Input.is_paused() then
     return
   end
+  if GameState.world == nil or GameState.world:isDestroyed() then
+    return
+  end
 
   Timer.update(dt)
 
+  local entities = Entity.get_entities()
   local i = 1
-  while i <= #Entity.list do
-    local entity = Entity.list[i]
+  while i <= #entities do
+    local entity = entities[i]
     DestroyEntity(entity)
     if entity.destroyed then
       -- Stay on the same index
-      table.remove(Entity.list, i)
+      table.remove(entities, i)
     else
       UpdateCamera(entity)
       UpdateEntityVelocity(entity)
@@ -102,5 +106,5 @@ Love.update = function(dt)
     end
   end
 
-  World:update(dt)
+  GameState.world:update(dt)
 end

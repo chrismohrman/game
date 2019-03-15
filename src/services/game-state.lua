@@ -14,5 +14,6 @@ end
 
 return {
   get_players = get_players,
-  set_player = set_player
+  set_player = set_player,
+  world = nil
 }

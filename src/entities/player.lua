@@ -44,7 +44,8 @@ return function()
     },
     on_death = {
       'fall-over',
-      'unregister-player'
+      'unregister-player',
+      'reload-menu'
     },
     on_spawn = {
       'register-player'

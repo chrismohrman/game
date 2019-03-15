@@ -39,8 +39,8 @@ local btn_quit = {
 
 local background = {
   file_name = 'img/title.png',
-  pos_x = 0,
-  pos_y = 0
+  pos_x = 0.31,
+  pos_y = 0.1
 }
 
 return {

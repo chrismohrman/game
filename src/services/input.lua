@@ -20,16 +20,20 @@ local key_map = {
 }
 -- Buffer key releases to trigger when unpausing
 local pause_buffer
-local press_callbacks = {
-  down = {},
-  left = {},
-  up = {},
-  right = {},
-  start = {},
-  shot1 = {},
-  shot2 = {}
-}
-local release_callbacks = Util.copy(press_callbacks)
+local generate_empty_callback_tables = function()
+  return {
+    down = {},
+    left = {},
+    up = {},
+    right = {},
+    start = {},
+    shot1 = {},
+    shot2 = {}
+  }
+end
+
+local press_callbacks = generate_empty_callback_tables()
+local release_callbacks = generate_empty_callback_tables()
 
 local call_key_press = function(pressed_key)
   -- Translate the pressed key into a game action
@@ -122,6 +126,10 @@ local toggle_paused = function()
   end
 end
 
+local unregister_everything = function()
+  press_callbacks = generate_empty_callback_tables()
+end
+
 local unregister_key_press = function(action, fn)
   local index_to_remove = nil
   for idx, value in ipairs(press_callbacks[action]) do
@@ -156,6 +164,9 @@ service.get_actions = get_actions
 service.is_paused = is_paused
 service.register_key_press = register_key_press
 service.register_key_release = register_key_release
+-- Called when the map is unloaded. Entities aren't destroyed
+-- invidually so their keypresses wouldn't be unregistered otherwise
+service.unregister_everything = unregister_everything
 service.unregister_key_press = unregister_key_press
 service.unregister_key_release = unregister_key_release
 service.toggle_paused = toggle_paused

@@ -47,7 +47,11 @@ local function draw()
 
   if active_menu.background then
     local image = love.graphics.newImage(active_menu.background.file_name)
-    love.graphics.draw(image, active_menu.background.pos_x, active_menu.background.pos_y)
+    love.graphics.draw(
+      image,
+      left + math.floor(active_menu.background.pos_x * window_width),
+      top + math.floor(active_menu.background.pos_y * window_height)
+    )
 end
 
 
@@ -162,6 +166,8 @@ local function unload()
   for action, fn in pairs(registered_key_release_callbacks) do
     Input.unregister_key_release(action, fn)
   end
+  registered_key_press_callbacks = {}
+  registered_key_release_callbacks = {}
 end
 
 return {

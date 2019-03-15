@@ -2,9 +2,8 @@
 -- Build entity's box2d body when spawning
 
 local System = require 'lib/system'
-
+local GameState = require 'src/services/game-state'
 local Love = require 'src/services/love'
-local World = require 'src/services/world'
 
 local components = {
   '=body'
@@ -13,7 +12,7 @@ local components = {
 local system = function(body, pos_x, pos_y)
 
   local new_body = Love.physics.newBody(
-    World,
+    GameState.world,
     pos_x + (body.offset_x or 0),
     pos_y + (body.offset_y or 0),
     body.type or 'dynamic'

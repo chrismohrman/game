@@ -12,6 +12,11 @@ local components = {
 local system = function(entity, body)
   local pos_x, pos_y = body:getPosition()
 
+  if not Map.get_active_map() then
+    entity.destroy = true
+    return
+  end
+
   -- Do the quicker calculations first
   if pos_x < -2000 or pos_y < -2000 then
     entity.destroyed = true

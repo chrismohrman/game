@@ -1,5 +1,4 @@
 local Love = require 'src/services/love'
-local Util = require 'src/services/util'
 
 local CallOnSpawn = require 'src/systems/call-on-spawn'
 local RegisterBody = require 'src/systems/register-body'
@@ -27,6 +26,17 @@ end
 
 local entity_configs = get_entity_configs(entity_directory)
 local entities = {}
+
+-- Reset the entities table (when unloading a map)
+local clear_entities = function()
+  entities = {}
+end
+
+-- Get the list of all spawned entities. This is
+-- the list used by the LÖVE update function.
+local get_entities = function()
+  return entities
+end
 
 -- Spawn any entity type, including boundaries (given the
 -- object type was correctly specified in the map editor)
@@ -63,6 +73,7 @@ local spawn = function(object, layer_index)
 end
 
 return {
-  list = entities,
+  clear_entities = clear_entities,
+  get_entities = get_entities,
   spawn = spawn
 }
