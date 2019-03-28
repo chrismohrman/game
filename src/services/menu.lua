@@ -11,7 +11,7 @@ local registered_key_press_callbacks = {}
 local registered_key_release_callbacks = {}
 -- This gets assigned when a menu is loaded
 local active_menu
-local menus = {
+local menu_factories = {
   main = require 'src/menus/main'
 }
 local menu_action_directory = 'src/menus/actions'
@@ -133,7 +133,7 @@ local function get_key_release_callback(action)
 end
 
 local function load(menu_name)
-  active_menu = Util.copy(menus[menu_name])
+  active_menu = menu_factories[menu_name]()
   active_menu.active_element = active_menu.active_element or 1
   for _, element in ipairs(active_menu.elements) do
     for _, action in pairs(element.input_actions) do
